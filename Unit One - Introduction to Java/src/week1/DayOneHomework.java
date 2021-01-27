@@ -32,7 +32,7 @@ public class DayOneHomework {
 
         //Question Three
         System.out.println("\n3.\tA program to print out your mailing address.");
-        System.out.println("wmacinnis@bayviewglen.ca");
+        System.out.println("85 Moatfield Drive");
 
         //Question Four
         System.out.println("\n4.\tOur lady of Mercy Hospital prints billing statements for patients when they are ready to leave the hospital. Write a program that prints a heading for each statement as follows:");
