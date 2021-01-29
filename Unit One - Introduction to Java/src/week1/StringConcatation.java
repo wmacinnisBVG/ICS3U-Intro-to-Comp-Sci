@@ -5,6 +5,15 @@ public class StringConcatation {
         //exampleOne();
         //exampleTwo();
         exampleThree();
+        exampleFour();
+    }
+
+    private static void exampleFour() {
+        int x = 11;
+        int y = x % 2;
+        System.out.print(y);
+        boolean isEven = (x % 2) == 0;
+        System.out.println(isEven);
     }
 
     private static void exampleThree() {
