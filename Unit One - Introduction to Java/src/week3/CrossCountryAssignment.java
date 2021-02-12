@@ -16,7 +16,7 @@ public class CrossCountryAssignment {
         System.out.println("| Time at mile marker 2 (Split 2): "+secondsToMinutes(runnerOneSplit2)+"        |");
         System.out.println("| Time at the end of the race (Split 3): "+secondsToMinutes(runnerOneSplit3)+"  |");
         System.out.println("----------------------------------------------------");
-        System.out.println("Total time to finish the race for "+runnerOneName+": "+runnerOneFinalTime+"         ");
+        System.out.println("Total time to finish the race for "+runnerOneName+": "+runnerOneFinalTime);
         
         //Runner Two
         String runnerTwoName = newRunner();
@@ -30,7 +30,7 @@ public class CrossCountryAssignment {
         System.out.println("| Time at mile marker 2 (Split 2): "+secondsToMinutes(runnerTwoSplit2)+"        |");
         System.out.println("| Time at the end of the race (Split 3): "+secondsToMinutes(runnerTwoSplit3)+"  |");
         System.out.println("----------------------------------------------------");
-        System.out.println("Total time to finish the race for "+runnerTwoName+": "+runnerTwoFinalTime+"         ");
+        System.out.println("Total time to finish the race for "+runnerTwoName+": "+runnerTwoFinalTime);
         
         //Runner Three
         String runnerThreeName = newRunner();
@@ -44,7 +44,7 @@ public class CrossCountryAssignment {
         System.out.println("| Time at mile marker 2 (Split 2): "+secondsToMinutes(runnerThreeSplit2)+"        |");
         System.out.println("| Time at the end of the race (Split 3): "+secondsToMinutes(runnerThreeSplit3)+"  |");
         System.out.println("----------------------------------------------------");
-        System.out.println("Total time to finish the race for "+runnerThreeName+": "+runnerThreeFinalTime+"         ");
+        System.out.println("Total time to finish the race for "+runnerThreeName+": "+runnerThreeFinalTime);
         System.out.println("\nThank you for using Race Split Calculator, goodbye!");
     }
 
