@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class ReadingDataFromKeyboard {
     public static void main(String[] args) {
-       // exampleOne();
+        exampleOne();
         exampleTwo();
     }
 
