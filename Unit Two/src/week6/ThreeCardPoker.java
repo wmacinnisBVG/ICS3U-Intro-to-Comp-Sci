@@ -1,5 +1,7 @@
 package week6;
 
+import java.util.Scanner;
+
 public class ThreeCardPoker {
 
   private static final int HEARTS = 0;
@@ -14,13 +16,139 @@ public class ThreeCardPoker {
   private static final int ACE = 14;
 
   public static void main(String[] args) {
-
+    Scanner in = new Scanner(System.in);
+    System.out.print("(Ante wager) ");
+    int anteWager = getWager(in);
+    boolean pairPlusWagerCheck = checkPairPlusWager(in);
+   
     String playerHand = dealCards();
-    String dealerHand = dealCards();
+    //String dealerHand = dealCards();
+    String dealerHand = "10Q 4S 8C";
+    int pairPlusWager = 0;
+    if(pairPlusWagerCheck == true){
+      System.out.print("(Pair plus wager) ");
+      pairPlusWager = getWager(in);
+      System.out.println("Your pair plus wager is: $"+pairPlusWager);
+    } else {
+      System.out.println("You did not bet on a pair plus wager.");
+    }
+    System.out.println("Your ante wager is: $"+anteWager);
 
-    System.out.println("Player: " + playerHand);
-    System.out.println("Dealer: " + dealerHand);
+    System.out.println("Your cards are: " + playerHand);
 
+    boolean play = playGame(in);
+
+    if(play == true){
+        int playWager = anteWager; 
+        System.out.println("");
+        System.out.println("Your cards are: " + playerHand);
+        System.out.println("Your ante wager is: $"+anteWager);
+        System.out.println("Your pair plus wager is: $"+pairPlusWager);
+        System.out.println("Your play wager is: $"+playWager);
+        System.out.println("-----------");
+        System.out.println("Dealers cards are: " + dealerHand);
+        boolean dealersHandCheck = checkDealersHand(dealerHand);
+        if(dealersHandCheck == true){
+          System.out.println("Dealer qualifies. ");
+          boolean areDealersCardsBetter = checkCards(playerHand, dealerHand);
+
+        } else {
+          int payout = playWager;
+          System.out.println("Dealer did not qualify, your play wager has been returned, but you have lost your ante wager. ");
+          System.out.println("Payout: $"+payout);
+        }
+    } else {
+      int totalLosses = pairPlusWager+anteWager;
+      System.out.println("You folded: You lost $"+totalLosses);
+   
+    }
+
+     
+
+
+  
+    in.close();
+  }
+  
+  private static boolean checkCards(String playerHand, String dealerHand) {
+    //players cards
+    String card1 = playerHand.substring(0,2);
+    //int card1Face = getFace(card1);
+    String card1Suit = card1.substring(0,2);
+    //System.out.println(card1Face);
+    System.out.println(card1);
+    return false;
+  }
+
+  private static int getFace(String card) {
+    String value = card.substring(0);
+    if(value == "A"){
+      return 14;
+    } else if(value == "K"){
+      return 13;
+    } else if(value == "Q"){
+      return 12;
+    } else if(value == "J"){
+      return 11; 
+    } else {
+      return Integer.parseInt(value);
+    }
+  }
+
+  private static boolean checkDealersHand(String dealerHand) {
+    if(dealerHand.indexOf('Q') > 0 || dealerHand.indexOf('K') > 0 || dealerHand.indexOf('A') > 0){
+        return true;
+    } else {
+      return false;
+    }
+ 
+  }
+
+  private static boolean checkPairPlusWager(Scanner in) {
+    String temp = "";
+    while (!(temp.equalsIgnoreCase("Y") || temp.equalsIgnoreCase("YES") || temp.equalsIgnoreCase("N")
+        || temp.equalsIgnoreCase("NO"))) {
+            System.out.println("");
+      System.out.print("Would you like to bet a pair plus wager? (Y/N)");
+      temp = in.nextLine();
+      temp = temp.toLowerCase();
+    }
+    return temp.indexOf("y") >= 0;
+  }
+
+  private static boolean playGame(Scanner in) {
+    String temp = "";
+    while (!(temp.equalsIgnoreCase("Y") || temp.equalsIgnoreCase("YES") || temp.equalsIgnoreCase("N")
+        || temp.equalsIgnoreCase("NO"))) {
+            System.out.println("");
+      System.out.print("Do you want to play? (Y/N)");
+      temp = in.nextLine();
+      temp = temp.toLowerCase();
+    }
+    return temp.indexOf("y") >= 0;
+
+  }
+  private static int getWager(Scanner in) {
+    int wager = 0;
+    System.out.print("Please enter your wager (50 - 100): ");
+    String wagerAsText = in.nextLine();
+    boolean validInput = false;
+    while (!validInput) {
+      try {
+        wager = Integer.parseInt(wagerAsText);
+        
+        if(wager > 49 && wager < 101){
+            validInput = true;
+        } else {
+            System.out.print("Please enter a valid wager (50-100): ");
+            wagerAsText = in.nextLine();
+            }
+      } catch (NumberFormatException ex) {
+        System.out.print("Please enter a valid wager (50-100): ");
+        wagerAsText = in.nextLine();
+      }
+    }
+    return wager; 
   }
 
   private static String dealCards() {
