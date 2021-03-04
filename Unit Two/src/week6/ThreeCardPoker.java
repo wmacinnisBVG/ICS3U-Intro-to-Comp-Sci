@@ -72,11 +72,13 @@ public class ThreeCardPoker {
   
   private static boolean checkCards(String playerHand, String dealerHand) {
     //players cards
+    
     String card1 = playerHand.substring(0,2);
+    
     //int card1Face = getFace(card1);
     String card1Suit = card1.substring(0,2);
     //System.out.println(card1Face);
-    System.out.println(card1);
+    System.out.println(card1Suit);
     return false;
   }
 
