@@ -15,15 +15,22 @@ public class ThreeCardPoker {
   private static final int KING = 13;
   private static final int ACE = 14;
 
+	private static final int STRAIGHT_FLUSH = 40;
+	private static final int THREE_OF_A_KIND = 30;
+	private static final int STRAIGHT = 6;
+	private static final int FLUSH = 3;
+	private static final int PAIR = 1;
+private static final int HIGH_CARD = 0;
+
   public static void main(String[] args) {
+
     Scanner in = new Scanner(System.in);
     System.out.print("(Ante wager) ");
     int anteWager = getWager(in);
     boolean pairPlusWagerCheck = checkPairPlusWager(in);
    
     String playerHand = dealCards();
-    //String dealerHand = dealCards();
-    String dealerHand = "10Q 4S 8C";
+    String dealerHand = dealCards();
     int pairPlusWager = 0;
     if(pairPlusWagerCheck == true){
       System.out.print("(Pair plus wager) ");
@@ -50,7 +57,8 @@ public class ThreeCardPoker {
         boolean dealersHandCheck = checkDealersHand(dealerHand);
         if(dealersHandCheck == true){
           System.out.println("Dealer qualifies. ");
-          boolean areDealersCardsBetter = checkCards(playerHand, dealerHand);
+    String whichHandIsBetter = checkCards(playerHand, dealerHand);
+    System.out.println(whichHandIsBetter);
 
         } else {
           int payout = playWager;
@@ -70,30 +78,97 @@ public class ThreeCardPoker {
     in.close();
   }
   
-  private static boolean checkCards(String playerHand, String dealerHand) {
+  private static String checkCards(String playerHand, String dealerHand) {
     //players cards
+    int spaceLocation1 = playerHand.indexOf(" ");
+    String lastTwoCards = playerHand.substring(spaceLocation1+1, playerHand.length());
+    int spaceLocation2 = lastTwoCards.indexOf(" ");
+    String playerCard3 = lastTwoCards.substring(spaceLocation2+1, lastTwoCards.length());
+    String playerCard2 = lastTwoCards.substring(0, spaceLocation2);
+    String playerCard1 = playerHand.substring(0,spaceLocation1);
+    System.out.println(playerCard1);
+    System.out.println(playerCard2);
+    System.out.println(playerCard3);
+    int playerHandValue = checkHandValue(playerCard1, playerCard2, playerCard3);
+    System.out.println("Player hand value" + playerHandValue);
+    //dealer cards 
+    int dealerSpaceLocation1 = dealerHand.indexOf(" ");
+    String dealerLastTwoCards = dealerHand.substring(dealerSpaceLocation1+1, dealerHand.length());
+    int dealerSpaceLocation2 = dealerLastTwoCards.indexOf(" ");
+    String dealerCard3 = dealerLastTwoCards.substring(dealerSpaceLocation2+1, dealerLastTwoCards.length());
+    String dealerCard2 = dealerLastTwoCards.substring(0, dealerSpaceLocation2);
+    String dealerCard1 = dealerHand.substring(0,dealerSpaceLocation1);
+    System.out.println(dealerCard1);
+    System.out.println(dealerCard2);
+    System.out.println(dealerCard3);
+    int dealerHandValue = checkHandValue(dealerCard1, dealerCard2, dealerCard3);
+    System.out.println("Dealer hand value" + dealerHandValue);
+    if(dealerHandValue > playerHandValue){
+      return "Dealer";
+    } else if(dealerHandValue < playerHandValue){
+      return "Player";
+    } else if(dealerHandValue == playerHandValue){
+      int playerCard1Face = getFace(playerCard1);
+    int playerCard2Face = getFace(playerCard2);
+    int playerCard3Face = getFace(playerCard3);
+    int playerCardTotal = playerCard1Face+playerCard2Face+playerCard3Face;
     
-    String card1 = playerHand.substring(0,2);
+    int dealerCard1Face = getFace(dealerCard1);
+    int dealerCard2Face = getFace(dealerCard2);
+    int dealerCard3Face = getFace(dealerCard3);
+    int dealerCardTotal = dealerCard1Face+dealerCard2Face+dealerCard3Face;
+    if(playerCardTotal > dealerCardTotal){
+      return "Player";
+    } else if(playerCardTotal < dealerCardTotal) {
+      return "Dealer";
+    } else {
+      return "Tie";
+    }
+
+    } else {
+      return null;
+    }
+  }
+
+  private static int checkHandValue(String card1, String card2, String card3) {
+    int card1Face = getFace(card1);
+    String card1Suit = getSuit(card1);
+    int card2Face = getFace(card2);
+    String card2Suit = getSuit(card2);
+    int card3Face = getFace(card3);
+    String card3Suit = getSuit(card3);
+    if(card1Suit.equals(card2Suit) && card2Suit.equals(card3Suit) && card1Face-card2Face == 1 && card2Face-card3Face == 1){
+      return STRAIGHT_FLUSH;
+    } else if(card1Face == card2Face && card2Face == card3Face){
+      return THREE_OF_A_KIND;
+    } else if(card3Face-card2Face == 1 && card2Face-card1Face == 1){
+      return STRAIGHT; 
+    } else if(card1Suit.equals(card2Suit) && card2Suit.equals(card3Suit)){
+      return FLUSH;
+    } else if(card1Face == card2Face || card2Face == card3Face || card1Face == card3Face){
+      return PAIR;
+    } else {
+      return HIGH_CARD;
+    }
     
-    //int card1Face = getFace(card1);
-    String card1Suit = card1.substring(0,2);
-    //System.out.println(card1Face);
-    System.out.println(card1Suit);
-    return false;
+  }
+
+  private static String getSuit(String card) {
+    return card.substring(card.length()-1);
   }
 
   private static int getFace(String card) {
-    String value = card.substring(0);
-    if(value == "A"){
+    String face = card.substring(0,card.length()-1);
+    if(face.equals("A")){
       return 14;
-    } else if(value == "K"){
+    } else if(face.equals("K")){
       return 13;
-    } else if(value == "Q"){
+    } else if(face.equals("Q")){
       return 12;
-    } else if(value == "J"){
+    } else if(face.equals("J")){
       return 11; 
     } else {
-      return Integer.parseInt(value);
+      return Integer.parseInt(face);
     }
   }
 
